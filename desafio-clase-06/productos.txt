@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Holanda1",
+    "price": 3000,
+    "thumbnail": "https://firebasestorage.googleapis.com/v0/b/moin-di.appspot.com/o/cartera3.jpg?alt=media&token=121a81df-44d9-4d30-89d0-aea6ad7e754e",
+    "id": 1
+  },
+  {
+    "title": "Holanda2",
+    "price": 3000,
+    "thumbnail": "https://firebasestorage.googleapis.com/v0/b/moin-di.appspot.com/o/cartera3.jpg?alt=media&token=121a81df-44d9-4d30-89d0-aea6ad7e754e",
+    "id": 2
+  },
+  {
+    "title": "Holanda3",
+    "price": 3000,
+    "thumbnail": "https://firebasestorage.googleapis.com/v0/b/moin-di.appspot.com/o/cartera3.jpg?alt=media&token=121a81df-44d9-4d30-89d0-aea6ad7e754e",
+    "id": 3
+  }
+]
