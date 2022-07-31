@@ -15,19 +15,27 @@ app.get("/", (req, res)=>{
     res.send("<h1>Desafio clase 06</h1>")
 })
 
+// Mostrar todos los productos
 async function getProductos(){
     let productos = await contenedor.getAll()
     return productos
 }
 
-app.get("/productos", (req, res)=>{ 
-    let productos = getProductos()
-    console.log(productos)
-    res.send(productos)
+app.get("/productos", async (req, res)=>{ 
+        let productos = await getProductos()
+        res.send(productos)
 })
 
-app.get("/productoRandom", (req, res)=>{
-    res.send("<h1>Producto Random</h1>")
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+// Mostrar producto random
+app.get("/productoRandom", async (req, res)=>{
+    let productos = await getProductos()
+    let idRandom = getRandomInt(productos.length) 
+    console.log(idRandom)
+    res.send(productos[idRandom])
 })
 
 const PORT = 8080

@@ -36,10 +36,10 @@ class Contenedor {
     async getAll() {
         try {
             let data = await fs.promises.readFile(this.route, "utf8")
-            let dataParse = JSON.parse(data)
+            let dataParse = await JSON.parse(data)
             if (dataParse.length) {
                 // console.log(dataParse)
-                return dataParse 
+                return Promise.resolve(dataParse)
             } else {
                 console.log("No hay productos")
             }
