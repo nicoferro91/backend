@@ -23,29 +23,40 @@ app.listen(PORT, () =>{
     console.log("servidor en puerto 8080")
 })
 
+// Devolver un producto por id
+routerProductos.get("/:id", async (req,res)=>{
+    const {id} = req.params
+    const contenedor = new Contenedor("./productos.txt")
+    let productos = await contenedor.getById(id)
+    res.send(productos)
+})
+
+// Devolver todos los productos
 routerProductos.get("/", async (req,res)=>{
     const contenedor = new Contenedor("./productos.txt")
     let productos = await contenedor.getAll()
     res.send(productos)
 })
 
+// Actualizar un producto
+routerProductos.put("/:id", async(req, res)=>{
+    const {id} = req.params
+    const objProducto = req.body
+    const contenedor = new Contenedor("./productos.txt")
+    const respuesta = await contenedor.updateById(objProducto)
+    res.json({respuesta})
+} )
+
+// Agregar un producto
 routerProductos.post("/", (req, res)=>{
     const contenedor = new Contenedor("./productos.txt")
     const objProducto = req.body
-    Contenedor.save(objProducto)
+    contenedor.save(objProducto)
     res.json({
         msg: "producto guardaro",
         objProducto
     })
-    
 })
 
-routerProductos.put("/:id",(req, res)=>{
-    const {id} = req.params
-    const objProducto = req.body
-    const contenedor = new Contenedor("./productos.txt")
-    contenedor.updateById(objProducto)
-    // const respuesta = updateById({id, title, price, thumbnail})
-    // res.json({respuesta})
-} )
+
 

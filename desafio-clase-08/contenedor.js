@@ -4,20 +4,6 @@ class Contenedor {
     constructor(route) {
         this.route = route
     }
-    async save(product) {
-        try {
-            let data = await fs.promises.readFile(this.route, "utf8")
-            let dataParse = JSON.parse(data)
-            if (dataParse.length) {
-                await fs.promises.writeFile(this.route, JSON.stringify([...dataParse, { ...product, id: dataParse.length + 1 }], null, 2))
-            } else {
-                await fs.promises.writeFile(this.route, JSON.stringify([{ ...product, id: 1 }], null, 2))
-            }
-            return dataParse.length + 1
-        } catch (error) {
-            console.log(error)
-        }
-    }
     async updateById(product) {
         try {
             let data = await fs.promises.readFile(this.route, "utf8")
@@ -25,7 +11,6 @@ class Contenedor {
             const productIndex = dataParse.findIndex(prod => prod.id === product.id)
             if(productIndex!== -1){
                 dataParse[productIndex] = product
-                console.log(product)
                 await fs.promises.writeFile(this.route, JSON.stringify(dataParse, null, 2))
                 return {msg: `producto actualizado id:${productIndex}`}
 
@@ -40,11 +25,12 @@ class Contenedor {
         try {
             let data = await fs.promises.readFile(this.route, "utf8")
             let dataParse = JSON.parse(data)
+            id = parseInt(id)
             let product = dataParse.find(product => product.id === id)
             if (product) {
                 return product
             } else {
-                console.log("El producto no existe")
+                console.log("El producto no existe getById")
                 return null
             }
         } catch (error) {
@@ -61,6 +47,20 @@ class Contenedor {
             } else {
                 console.log("No hay productos")
             }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    async save(product) {
+        try {
+            let data = await fs.promises.readFile(this.route, "utf8")
+            let dataParse = JSON.parse(data)
+            if (dataParse.length) {
+                await fs.promises.writeFile(this.route, JSON.stringify([...dataParse, { ...product, id: dataParse.length + 1 }], null, 2))
+            } else {
+                await fs.promises.writeFile(this.route, JSON.stringify([{ ...product, id: 1 }], null, 2))
+            }
+            return dataParse.length + 1
         } catch (error) {
             console.log(error)
         }
@@ -88,7 +88,7 @@ class Contenedor {
             await fs.promises.writeFile(this.route, JSON.stringify([], null, 2))
             console.log("Borrados todos los productos")
         } catch (error) {
-            
+            console.log(error)
         }
     }
 }

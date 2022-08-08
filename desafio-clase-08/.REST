@@ -1,8 +1,23 @@
-PUT http://localhost:8080/api/productos/1 HTTP/1.1
+// Devolver un producto por id
+# GET http://localhost:8080/api/productos/2 HTTP/1.1
+# Content-Type: application/json
+
+// Actualizar un producto
+# PUT http://localhost:8080/api/productos/:2 HTTP/1.1
+# Content-Type: application/json
+# {
+#     "title": "Producto actualizado",
+#     "price": 1234,
+#     "thumbnail": "foto actualizada",
+#     "id": 2
+# }
+
+# Agregar un producto
+POST http://localhost:8080/api/productos/ HTTP/1.1
 Content-Type: application/json
 
-{
-    "title": "Producto nuevo",
-    "price": 1234,
-    "thumbnail": "foto nueva"
-}
+# {
+#     "title": "Producto nuevo",
+#     "price": 3456,
+#     "thumbnail": "foto nueva"
+# }

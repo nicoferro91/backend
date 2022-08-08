@@ -8,5 +8,12 @@
 </head>
 <body>
     <h1>Desafio clase 08</h1>
+    <h2>Ingrese un producto nuevo</h2>
+    <form method="POST" action="http://localhost:8080/api/productos">
+        <input type="text" name="title" placeholder="nombre">
+        <input type="number" name="price" placeholder="precio">
+        <input type="text" name="thumbnail" placeholder="foto">
+        <button type="submit">Agregar</button>
+    </form>
 </body>
 </html>
