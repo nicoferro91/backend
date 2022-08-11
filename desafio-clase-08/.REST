@@ -3,21 +3,25 @@
 # Content-Type: application/json
 
 // Actualizar un producto
-# PUT http://localhost:8080/api/productos/:2 HTTP/1.1
+# PUT http://localhost:8080/api/productos/:5 HTTP/1.1
 # Content-Type: application/json
+
 # {
-#     "title": "Producto actualizado",
-#     "price": 1234,
-#     "thumbnail": "foto actualizada",
-#     "id": 2
+#     "title": "Producto actualizado50",
+#     "price": 123450,
+#     "thumbnail": "foto actualizada50"
 # }
 
 # Agregar un producto
-POST http://localhost:8080/api/productos/ HTTP/1.1
-Content-Type: application/json
+# POST http://localhost:8080/api/productos/ HTTP/1.1
+# Content-Type: application/json
 
 # {
 #     "title": "Producto nuevo",
 #     "price": 3456,
 #     "thumbnail": "foto nueva"
 # }
+
+# Borrar por producto por id
+DELETE http://localhost:8080/api/productos/:5 HTTP/1.1
+Content-Type: application/json

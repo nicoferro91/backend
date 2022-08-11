@@ -4,16 +4,18 @@ class Contenedor {
     constructor(route) {
         this.route = route
     }
-    async updateById(product) {
+    async updateById(product, id) {
         try {
             let data = await fs.promises.readFile(this.route, "utf8")
             let dataParse = JSON.parse(data)
-            const productIndex = dataParse.findIndex(prod => prod.id === product.id)
+            const productIndex = dataParse.findIndex(prod => prod.id === id)
+            // const productIndex = dataParse.findIndex(prod => prod.id === product.id)
             if(productIndex!== -1){
+                product.id = id
                 dataParse[productIndex] = product
                 await fs.promises.writeFile(this.route, JSON.stringify(dataParse, null, 2))
-                return {msg: `producto actualizado id:${productIndex}`}
-
+                return {msg: `producto actualizado id:${id}`}
+                // return {msg: `producto actualizado id:${product.id}`}
             } else {
                 return { error : 'producto no encontrado' }
             }
@@ -66,6 +68,7 @@ class Contenedor {
         }
     }
     async deleteById(id) {
+        console.log("intentando borrar")
         try {
             let data = await fs.promises.readFile(this.route, "utf8")
             let dataParse = JSON.parse(data)
@@ -73,7 +76,7 @@ class Contenedor {
             if (product) {
                 let dataParseFilter = dataParse.filter(product=>product.id !== id )
                 await fs.promises.writeFile(this.route, JSON.stringify(dataParseFilter, null, 2))
-                console.log(`El producto ${id} fue borrado`)
+                console.log(`El producto ${product.id} fue borrado`)
                 return product
             } else {
                 console.log("El producto no existe")

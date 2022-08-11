@@ -1,5 +1,4 @@
 const Contenedor= require("./contenedor");
-// const contenedor = new Contenedor("./productos.txt")
 
 const express = require("express")
 const { Router } = express
@@ -25,7 +24,9 @@ app.listen(PORT, () =>{
 
 // Devolver un producto por id
 routerProductos.get("/:id", async (req,res)=>{
-    const {id} = req.params
+    let {id} = req.params
+    id = id.slice(1)
+    id = parseInt(id)
     const contenedor = new Contenedor("./productos.txt")
     let productos = await contenedor.getById(id)
     res.send(productos)
@@ -40,10 +41,12 @@ routerProductos.get("/", async (req,res)=>{
 
 // Actualizar un producto
 routerProductos.put("/:id", async(req, res)=>{
-    const {id} = req.params
+    let {id} = req.params
+    id = id.slice(1)
+    id = parseInt(id)
     const objProducto = req.body
     const contenedor = new Contenedor("./productos.txt")
-    const respuesta = await contenedor.updateById(objProducto)
+    const respuesta = await contenedor.updateById(objProducto, id)
     res.json({respuesta})
 } )
 
@@ -53,10 +56,22 @@ routerProductos.post("/", (req, res)=>{
     const objProducto = req.body
     contenedor.save(objProducto)
     res.json({
-        msg: "producto guardaro",
+        msg: "producto guardado",
         objProducto
     })
 })
 
-
-
+// Borrar un producto por id
+routerProductos.delete("/:id", async (req,res)=>{
+    let {id} = req.params
+    id = id.slice(1)
+    id = parseInt(id)
+    const contenedor = new Contenedor("./productos.txt")
+    let productos = await contenedor.deleteById(id)
+    if(productos){
+        res.send(`El producto ${productos.id} fue borrado`)
+    }
+    else{
+        res.send("El producto no existe")
+    }
+})

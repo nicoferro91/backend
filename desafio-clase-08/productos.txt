@@ -6,9 +6,9 @@
     "id": 1
   },
   {
-    "title": "Producto actualizado",
-    "price": 1234,
-    "thumbnail": "foto actualizada",
+    "title": "Producto actualizado2",
+    "price": 12342,
+    "thumbnail": "foto actualizada2",
     "id": 2
   },
   {
@@ -22,11 +22,5 @@
     "price": 3456,
     "thumbnail": "foto nueva",
     "id": 4
-  },
-  {
-    "title": "sarasa",
-    "price": "123",
-    "thumbnail": "urlFoto",
-    "id": 5
   }
 ]
