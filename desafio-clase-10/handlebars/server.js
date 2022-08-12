@@ -28,10 +28,10 @@ app.engine(
 app.set("view engine", "hbs")
 app.set("views", "./views")
 
-
-
-app.get("/", (req, res)=>{
-    res.render("main", {listExist: true, list: fakeApi() })
+app.get("/productos", async (req, res)=>{
+    const contenedor = new Contenedor("./productos.txt")
+    let productos = await contenedor.getAll()
+    res.render("main", {productList:true, products:productos })
 })
 
 app.listen(PORT, err => {

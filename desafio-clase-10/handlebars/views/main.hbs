@@ -1,1 +1,29 @@
-<h1>Esto es el main</h1>
+<h1>Nuestros productos</h1>
+{{#if productList}}
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Foto</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each products}}
+        <tr>
+            <td>{{title}}</td>
+            <td>{{price}}</td>
+            <td><img src="{{thumbnail}}" alt="foto producto"></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{/if}}
+
+{{!-- {{#if productList}}
+<ul>
+    {{#each products}}
+    <li>Nombre: {{title}}</li>
+    {{/each}}
+</ul>
+{{/if}} --}}
