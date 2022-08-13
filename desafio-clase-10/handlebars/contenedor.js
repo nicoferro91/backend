@@ -4,18 +4,17 @@ class Contenedor {
     constructor(route) {
         this.route = route
     }
+// Modificar un producto por id
     async updateById(product, id) {
         try {
             let data = await fs.promises.readFile(this.route, "utf8")
             let dataParse = JSON.parse(data)
             const productIndex = dataParse.findIndex(prod => prod.id === id)
-            // const productIndex = dataParse.findIndex(prod => prod.id === product.id)
             if(productIndex!== -1){
                 product.id = id
                 dataParse[productIndex] = product
                 await fs.promises.writeFile(this.route, JSON.stringify(dataParse, null, 2))
                 return {msg: `producto actualizado id:${id}`}
-                // return {msg: `producto actualizado id:${product.id}`}
             } else {
                 return { error : 'producto no encontrado' }
             }
@@ -23,6 +22,7 @@ class Contenedor {
             console.log(error)
         }
     }
+// Devolver un producto por id
     async getById(id) {
         try {
             let data = await fs.promises.readFile(this.route, "utf8")
@@ -39,12 +39,12 @@ class Contenedor {
             console.log(error)
         }
     }
+// Devolver todos los productos
     async getAll() {
         try {
             let data = await fs.promises.readFile(this.route, "utf8")
             let dataParse = await JSON.parse(data)
             if (dataParse.length) {
-                // console.log(dataParse)
                 return Promise.resolve(dataParse)
             } else {
                 console.log("No hay productos")
@@ -53,6 +53,7 @@ class Contenedor {
             console.log(error)
         }
     }
+// Agregar un producto
     async save(product) {
         try {
             let data = await fs.promises.readFile(this.route, "utf8")
@@ -67,6 +68,7 @@ class Contenedor {
             console.log(error)
         }
     }
+// Borrar un producto por id
     async deleteById(id) {
         console.log("intentando borrar")
         try {
@@ -86,6 +88,7 @@ class Contenedor {
             console.log(error)
         }
     }
+// Borrar todos los productos
     async deleteAll(){
         try {
             await fs.promises.writeFile(this.route, JSON.stringify([], null, 2))

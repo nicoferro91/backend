@@ -1,8 +1,11 @@
+{{!-- Imagenes usadas
+https://www.iconfinder.com/iconsets/fashion-icons-1 --}}
+
 <h1>Nuestros productos</h1>
 {{#if productList}}
-<table>
+<table class="table table-striped table-hover w-75 m-5">
     <thead>
-        <tr>
+        <tr class="table-primary">
             <th>Nombre</th>
             <th>Precio</th>
             <th>Foto</th>
@@ -18,12 +21,10 @@
         {{/each}}
     </tbody>
 </table>
+{{else}}
+<h3>No encontramos productos</h3>
 {{/if}}
 
-{{!-- {{#if productList}}
-<ul>
-    {{#each products}}
-    <li>Nombre: {{title}}</li>
-    {{/each}}
-</ul>
-{{/if}} --}}
+<a href="http://localhost:8080">
+    <button class="btn btn-primary">Ir a formulario</button>
+</a>

@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended:true }))
 app.use(express.static("public"))
 
-app.use("/api/productos", routerProductos)
+app.use("/", routerProductos)
 
 // Seteo de handlebars
 app.engine(
@@ -28,10 +28,25 @@ app.engine(
 app.set("view engine", "hbs")
 app.set("views", "./views")
 
+// Mostrar formulario de ingreso
+app.get("/", (req,res)=>{
+    res.render("partials/formulario",{productList:false, agregado:false})
+})
+
+// Mostrar tabla de productos
 app.get("/productos", async (req, res)=>{
     const contenedor = new Contenedor("./productos.txt")
     let productos = await contenedor.getAll()
-    res.render("main", {productList:true, products:productos })
+    res.render("partials/productos", {productList:true, agregado:false, products:productos})
+})
+
+// Agregar un producto
+routerProductos.post("/", (req, res)=>{
+    const contenedor = new Contenedor("./productos.txt")
+    const objProducto = req.body
+    console.log(req.body)
+    contenedor.save(objProducto)
+    res.render("partials/formulario",{productList:false, agregado:true})
 })
 
 app.listen(PORT, err => {
