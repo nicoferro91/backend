@@ -1,0 +1,34 @@
+//- Imagenes usadas
+//- https://www.iconfinder.com/iconsets/fashion-icons-1
+
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css")
+        title Desafio 10
+    body(class="m-5")
+        h1 Desafio 10: PUG
+
+        h2 Nuestros productos
+        if productList
+            table(class="table table-striped table-hover w-75 m-5")
+                thead
+                    tr(class="table-primary")
+                        th Nombre
+                        th Precio
+                        th Foto
+                tbody
+                    each product of products
+                        tr
+                            td=product.title 
+                            td=product.price
+                            td
+                                img(src=product.thumbnail, alt="foto producto")
+        else        
+            h3 No encontramos productos
+        a(href="http://localhost:8080")
+            button(class="btn btn-primary") Ir a formulario
+
