@@ -1,0 +1,2 @@
+Me quedo con handlebars. Quizas pug por la sintaxis identada que resulta simpática.
+Y claramente lejos de EJS, no le veo ninguna ventaja.
