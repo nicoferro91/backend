@@ -31,11 +31,19 @@ app.get("/", async (req, res)=>{
     res.render("partials/productos", {productList:true, agregado:false, products:productos})
 })
 
+// Comunicacion servidor-cliente
 ioServer.on("connection", socket=>{
     console.log("usuario conectado", socket.id)
     socket.on("disconnect",()=>{
         console.log("usuario desconectado", socket.id)
     })
+    // Productos agregados
+    socket.on("newProduct-client", socket=>{
+        ioServer.sockets.emit("newProduct-server", socket)
+        const contenedor = new Contenedor("./productos.txt")
+        contenedor.save(socket)
+    })
+    // Chat
     socket.on("mensaje-cliente", socket=>{
         ioServer.sockets.emit("mensaje-server", socket)
     })
