@@ -12,6 +12,17 @@
     <h1>Desafio 12: Websockets</h1>
     {{> formulario }}
     {{{ body }}}
+    <div id="chatContainer">
+        <h3>Ingrese su email para chatear</h3>
+        <form>
+            <input id="email" type="text" placeholder="correo@mail.com">
+            <input id="emailSubmit" type="button" value="Ingresar" onclick="enviarEmail()">
+        </form>
+        <form>
+            <input id="chatMsg" type="text" placeholder="Mensaje">
+            <input id="chatSubmit" type="button" value="Enviar mensaje" onclick="enviarMensaje()">
+        </form>
+    </div>
     <script src="/index.js"></script>
 </body>
 </html>

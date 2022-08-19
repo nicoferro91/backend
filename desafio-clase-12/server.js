@@ -1,22 +1,15 @@
 const Contenedor= require("./contenedor");
-const handlebars = require("express-handlebars")
+const express = require("express")
 const {Server: HttpServer} = require("http")
 const {Server: IOServer} = require("socket.io")
-
-const express = require("express")
-const { Router } = express
+const handlebars = require("express-handlebars")
 
 const app = express()
-const PORT = 8080
-const routerProductos = Router()
-
 const httpServer = new HttpServer(app)
 const ioServer = new IOServer(httpServer)
 
-// Funciones middleware
-app.use(express.json())
-app.use(express.urlencoded({ extended:true }))
 app.use(express.static("public"))
+const PORT = 8080
 
 // Seteo de handlebars
 app.engine(
@@ -38,28 +31,13 @@ app.get("/", async (req, res)=>{
     res.render("partials/productos", {productList:true, agregado:false, products:productos})
 })
 
-// app.get("/", (req,res)=>{
-//     res.sendFile("/views/layouts/index.hbs",{root:__dirname})
-// })
-
-// prodAdd.addEventListener("click", ()=>{
-//     socket.emit("nuevo-producto-cliente", {"title":prodName, "price":prodPrice, "thumbnail":prodThumb, "id": 5})
-// })
-
-// Agregar un producto
-// routerProductos.post("/", (req, res)=>{
-//     const contenedor = new Contenedor("./productos.txt")
-//     const objProducto = req.body
-//     contenedor.save(objProducto)
-//     res.render("partials/formulario",{productList:false, agregado:true})
-// })
-
-ioServer.on("connection",socket=>{
+ioServer.on("connection", socket=>{
     console.log("usuario conectado", socket.id)
-    socket.emit("mensaje-server", "hola cliente")
-
     socket.on("disconnect",()=>{
         console.log("usuario desconectado", socket.id)
+    })
+    socket.on("mensaje-cliente", socket=>{
+        ioServer.sockets.emit("mensaje-server", socket)
     })
 })
 
