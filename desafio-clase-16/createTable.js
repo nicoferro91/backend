@@ -1,0 +1,15 @@
+const { options } = require("./mariaDB/conexionDB")
+const knex = require("knex")(options)
+
+knex.schema.createTable("productos", table => {
+    table.increments("id")
+    table.string("title")
+    table.integer("price")
+    table.string("thumbnail")
+    table.string("descripcion")
+    table.integer("codigo")
+    table.integer("stock")
+})
+.then(()=> console.log("tabla creada"))
+.catch((error)=> {console.log(error); throw err})
+// .finally(()=>knex.destroy())
