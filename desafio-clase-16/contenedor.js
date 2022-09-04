@@ -1,100 +1,91 @@
-const fs = require("fs")
-
 class Contenedor {
-    constructor(route) {
-        this.route = route
+    constructor(knex, table) {
+        this.knex = knex
+        this.table = table
     }
-// Modificar un producto por id
-    async updateById(product, id) {
+    // Crear tabla
+    async createTable(tableName) {
         try {
-            let data = await fs.promises.readFile(this.route, "utf8")
-            let dataParse = JSON.parse(data)
-            const productIndex = dataParse.findIndex(prod => prod.id === id)
-            if(productIndex!== -1){
-                product.id = id
-                dataParse[productIndex] = product
-                await fs.promises.writeFile(this.route, JSON.stringify(dataParse, null, 2))
-                return {msg: `producto actualizado id:${id}`}
-            } else {
-                return { error : 'producto no encontrado' }
-            }
+            await knexMariaDB.schema.createTable(tableName, table => {
+                table.increments("id")
+                table.string("title")
+                table.integer("price")
+                table.string("thumbnail")
+                table.string("descripcion")
+                table.integer("codigo")
+                table.integer("stock")
+            })
+            console.log("tabla creada")
         } catch (error) {
             console.log(error)
+        } finally {
+            knex.destroy()
         }
     }
-// Devolver un producto por id
-    async getById(id) {
-        try {
-            let data = await fs.promises.readFile(this.route, "utf8")
-            let dataParse = JSON.parse(data)
-            id = parseInt(id)
-            let product = dataParse.find(product => product.id === id)
-            if (product) {
-                return product
-            } else {
-                console.log("El producto no existe getById")
-                return null
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-// Devolver todos los productos
-    async getAll() {
-        try {
-            let data = await fs.promises.readFile(this.route, "utf8")
-            let dataParse = await JSON.parse(data)
-            if (dataParse.length) {
-                return Promise.resolve(dataParse)
-            } else {
-                console.log("No hay productos")
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-// Agregar un producto
+    // Agregar un producto
     async save(product) {
         try {
-            let data = await fs.promises.readFile(this.route, "utf8")
-            let dataParse = JSON.parse(data)
-            if (dataParse.length) {
-                await fs.promises.writeFile(this.route, JSON.stringify([...dataParse, { ...product, id: dataParse.length + 1 }], null, 2))
-            } else {
-                await fs.promises.writeFile(this.route, JSON.stringify([{ ...product, id: 1 }], null, 2))
-            }
-            return dataParse.length + 1
+            await this.knex(this.table).insert(product)
+            return { msg: "Producto agregado" }
         } catch (error) {
-            console.log(error)
+            console.log(`Error al agregar un producto: ${error}`)
         }
     }
-// Borrar un producto por id
-    async deleteById(id) {
-        console.log("intentando borrar")
+    // Devolver un producto por id
+    async getById(id) {
         try {
-            let data = await fs.promises.readFile(this.route, "utf8")
-            let dataParse = JSON.parse(data)
-            let product = dataParse.find(product => product.id === id)
-            if (product) {
-                let dataParseFilter = dataParse.filter(product=>product.id !== id )
-                await fs.promises.writeFile(this.route, JSON.stringify(dataParseFilter, null, 2))
-                console.log(`El producto ${product.id} fue borrado`)
-                return product
+            let product = await this.knex.from(this.table).select("*").where({ id: id })
+            if (product[0]) {
+                return product[0]
             } else {
-                console.log("El producto no existe")
+                console.log(`El producto id: ${id} no existe`)
                 return null
             }
         } catch (error) {
             console.log(error)
         }
     }
-// Borrar todos los productos
-    async deleteAll(){
+    // Devolver todos los productos
+    async getAll() {
         try {
-            await fs.promises.writeFile(this.route, JSON.stringify([], null, 2))
-            console.log("Borrados todos los productos")
+            const productos = await this.knex.from(this.table).select("*")
+            if (productos) {
+                return productos
+            } else {
+                return { msg: `No hay productos` }
+            }
         } catch (error) {
             console.log(error)
+        }
+    }
+    // Actualizar un producto por id
+    async updateById(product, id) {
+        try {
+            await this.knex
+                .from(this.table)
+                .where({ id: id })
+                .update({ ...product })
+            return { msg: `Producto actualizado id:${id}` }
+        } catch (error) {
+            console.log(`Error al actualizar producto: ${error}`)
+        }
+    }
+    // Borrar un producto por id
+    async deleteById(id) {
+        try {
+            await this.knex.from(this.table).where({ id: id }).del()
+            return {msg: `Producto id: ${id} borrado`}
+        } catch (error) {
+            console.log(`Error al borrar producto: ${error}`)
+        }
+    }
+    // Borrar todos los productos
+    async deleteAll() {
+        try {
+            await this.knex.from(this.table).del()
+            return {msg: "Todos los productos borrados"}
+        } catch (error) {
+            console.log(`Error al eliminar productos: ${error}`)
         }
     }
 }

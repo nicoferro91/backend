@@ -4,6 +4,9 @@ const {Server: HttpServer} = require("http")
 const {Server: IOServer} = require("socket.io")
 const handlebars = require("express-handlebars")
 
+const {optionsMariaDB}  = require("./mariaDB/conexionDB")
+const knexMariaDB = require("knex")(optionsMariaDB)
+
 const app = express()
 const httpServer = new HttpServer(app)
 const ioServer = new IOServer(httpServer)
@@ -26,7 +29,7 @@ app.set("views", "./views")
 
 // Mostrar tabla de productos
 app.get("/", async (req, res)=>{
-    const contenedor = new Contenedor("./productos.txt")
+    const contenedor = new Contenedor(knexMariaDB, "productos")
     let productos = await contenedor.getAll()
     res.render("partials/productos", {productList:true, agregado:false, products:productos})
 })
@@ -40,7 +43,7 @@ ioServer.on("connection", socket=>{
     // Productos agregados
     socket.on("newProduct-client", socket=>{
         ioServer.sockets.emit("newProduct-server", socket)
-        const contenedor = new Contenedor("./productos.txt")
+        const contenedor = new Contenedor(knexMariaDB, "productos")
         contenedor.save(socket)
     })
     // Chat

@@ -1,4 +1,4 @@
-const options = {
+const optionsMariaDB = {
     client: "mysql",
     connection: {
         host: "localhost",
@@ -10,5 +10,5 @@ const options = {
 }
 
 module.exports = {
-    options
+    optionsMariaDB
 }
