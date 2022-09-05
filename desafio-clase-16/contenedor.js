@@ -4,15 +4,22 @@ class Contenedor {
         this.table = table
     }
     // Carga de mensajes
-    async getMessages() {
-        try {
-            const messages = await knexSQLite.from("misMensajes").select("*")
-            return messages
-        } catch (error) {
-            console.log(`Error al cargar mensajes: ${error}`)
-        }
-    }
+    // async getMessages() {
+    //     try {
+    //         const messages = await knexSQLite.from("misMensajes").select("*")
+    //         return messages
+    //     } catch (error) {
+    //         console.log(`Error al cargar mensajes: ${error}`)
+    //     }
+    // }
 
+    // Carga de mensajes
+    getMessages = () => {
+        knexSQLite.from("misMensajes").select("*")
+            .then(resp => console.log("log adentro", resp))
+            .catch((error)=>console.log(error))
+            .finally(()=>knexSQLite.destroy())
+    }
     // Agregar un producto
     async save(product) {
         try {
