@@ -7,8 +7,7 @@ const addProduct = ()=>{
     const prodThumb = document.querySelector("#foto")
     const newProduct = {"title": prodName.value,
                         "price": prodPrice.value,
-                        "thumbnail": prodThumb.value,
-                        "id": 5}
+                        "thumbnail": prodThumb.value}
     socket.emit("newProduct-client", newProduct)
 }
 // Recibir producto nuevo
