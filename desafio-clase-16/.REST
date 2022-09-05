@@ -1,7 +1,7 @@
 // --- Pruebas productos --- //
 
 # // Devolver todos los productos
-# GET http://localhost:8080/api/productos/ HTTP/1.1
+# GET http://localhost:8080/ HTTP/1.1
 # Content-Type: application/json
 
 # // Devolver un producto por id
@@ -42,30 +42,4 @@
 
 // Prueba 404 productos
 # GET http://localhost:8080/api/productos/prueba/404 HTTP/1.1
-# Content-Type: application/json
-
-// --- Pruebas carrito --- //
-
-// Crear carrito
-# POST http://localhost:8080/api/carrito/ HTTP/1.1
-# Content-Type: application/json
-
-// Borrar carrito
-# DELETE http://localhost:8080/api/carrito/:3 HTTP/1.1
-# Content-Type: application/json
-
-// Agregar producto al carrito
-# POST http://localhost:8080/api/carrito/:5/productos/:2 HTTP/1.1
-# Content-Type: application/json
-
-// Borrar producto del carrito
-# DELETE http://localhost:8080/api/carrito/:3/productos/:4 HTTP/1.1
-# Content-Type: application/json
-
-// Listar productos en carrito
-# GET http://localhost:8080/api/carrito/:3/productos HTTP/1.1
-# Content-Type: application/json
-
-// Prueba 404 productos
-# GET http://localhost:8080/api/carrito/prueba/404 HTTP/1.1
 # Content-Type: application/json

@@ -7,6 +7,9 @@ const handlebars = require("express-handlebars")
 const {optionsMariaDB}  = require("./mariaDB/conexionMariaDB")
 const knexMariaDB = require("knex")(optionsMariaDB)
 
+const {optionsSQLite}  = require("./sqlite3/conexionSQLite")
+const knexSQLite = require("knex")(optionsSQLite)
+
 const app = express()
 const httpServer = new HttpServer(app)
 const ioServer = new IOServer(httpServer)
@@ -30,9 +33,28 @@ app.engine(
 app.set("view engine", "hbs")
 app.set("views", "./views")
 
+// Prueba Carga mensajes
+const getMessages = () => {
+    knexSQLite.from("misMensajes").select("*")
+        .then(resp => console.log("log adentro", resp))
+        .catch((error)=>console.log(error))
+        .finally(()=>knexSQLite.destroy())
+}
+const messages = getMessages()
+console.log("log afuera",messages)
+
+// Carga mensajes
+routerProductos.get("/mensajes", async (req,res)=>{
+    console.log("/mensajes")
+    const contenedor = new Contenedor(knexSQLite,"misMensajes")
+    const respuesta = await contenedor.getMessages()
+    console.log(respuesta)
+    res.json({respuesta})
+})
+
 // Mostrar tabla de productos
 app.get("/", async (req, res)=>{
-    const contenedor = new Contenedor(knexMariaDB, "productos")
+    const contenedor = new Contenedor(knexMariaDB, "misproductos")
     let productos = await contenedor.getAll()
     res.render("partials/productos", {productList:true, agregado:false, products:productos})
 })
@@ -41,7 +63,7 @@ app.get("/", async (req, res)=>{
 routerProductos.get("/:id", async (req,res)=>{
     let {id} = req.params
     id = parseInt(id.slice(1))
-    const contenedor = new Contenedor("./productos.json")
+    const contenedor = new Contenedor(knexMariaDB, "misproductos")
     const respuesta = await contenedor.getById(id)
     res.json({respuesta})
 })
@@ -52,14 +74,14 @@ routerProductos.put("/:id", async(req, res)=>{
     id = id.slice(1)
     id = parseInt(id)
     const objProducto = req.body
-    const contenedor = new Contenedor("./productos.json")
+    const contenedor = new Contenedor(knexMariaDB, "misproductos")
     const respuesta = await contenedor.updateById(objProducto, id, admin)
     res.json({respuesta})
 } )
 
 // Agregar un producto
 routerProductos.post("/", async (req, res)=>{
-    const contenedor = new Contenedor("./productos.json")
+    const contenedor = new Contenedor(knexMariaDB, "misproductos")
     const objProducto = req.body
     const respuesta = await contenedor.save(objProducto, admin)
     res.json({respuesta})
@@ -70,7 +92,7 @@ routerProductos.delete("/:id", async (req,res)=>{
     let {id} = req.params
     id = id.slice(1)
     id = parseInt(id)
-    const contenedor = new Contenedor("./productos.json")
+    const contenedor = new Contenedor(knexMariaDB, "misproductos")
     const respuesta = await contenedor.deleteById(id, admin)
     res.json({respuesta})
 })

@@ -3,25 +3,16 @@ class Contenedor {
         this.knex = knex
         this.table = table
     }
-    // Crear tabla
-    async createTable(tableName) {
+    // Carga de mensajes
+    async getMessages() {
         try {
-            await knexMariaDB.schema.createTable(tableName, table => {
-                table.increments("id")
-                table.string("title")
-                table.integer("price")
-                table.string("thumbnail")
-                table.string("descripcion")
-                table.integer("codigo")
-                table.integer("stock")
-            })
-            console.log("tabla creada")
+            const messages = await knexSQLite.from("misMensajes").select("*")
+            return messages
         } catch (error) {
-            console.log(error)
-        } finally {
-            knex.destroy()
+            console.log(`Error al cargar mensajes: ${error}`)
         }
     }
+
     // Agregar un producto
     async save(product) {
         try {
@@ -33,10 +24,11 @@ class Contenedor {
     }
     // Devolver un producto por id
     async getById(id) {
+        console.log("getById")
         try {
             let product = await this.knex.from(this.table).select("*").where({ id: id })
-            if (product[0]) {
-                return product[0]
+            if (product) {
+                return product
             } else {
                 console.log(`El producto id: ${id} no existe`)
                 return null
