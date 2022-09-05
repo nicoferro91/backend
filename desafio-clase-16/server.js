@@ -33,22 +33,10 @@ app.engine(
 app.set("view engine", "hbs")
 app.set("views", "./views")
 
-// Prueba Carga mensajes
-// const getMessages = () => {
-//     knexSQLite.from("misMensajes").select("*")
-//         .then(resp => console.log("log adentro", resp))
-//         .catch((error)=>console.log(error))
-//         .finally(()=>knexSQLite.destroy())
-// }
-// const messages = getMessages()
-// console.log("log afuera",messages)
-
 // Carga mensajes
 app.get("/chat/mensajes", async (req,res)=>{
-    console.log("/mensajes")
     const contenedor = new Contenedor(knexSQLite,"misMensajes")
     const respuesta = await contenedor.getMessages()
-    console.log(respuesta)
     res.json({respuesta})
 })
 
