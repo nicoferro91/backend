@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Pullover",
+    "price": 1000,
+    "thumbnail": "https://cdn1.iconfinder.com/data/icons/fashion-icons-1/48/pullover-128.png",
+    "id": 1
+  },
+  {
+    "title": "Remera",
+    "price": 2000,
+    "thumbnail": "https://cdn1.iconfinder.com/data/icons/fashion-icons-1/48/t-shirt-128.png",
+    "id": 2
+  },
+  {
+    "title": "Vestido largo",
+    "price": 3000,
+    "thumbnail": "https://cdn1.iconfinder.com/data/icons/fashion-icons-1/48/night_dress-128.png",
+    "id": 3
+  },
+  {
+    "title": "Poncho",
+    "price": 4000,
+    "thumbnail": "https://cdn1.iconfinder.com/data/icons/fashion-icons-1/48/poncho-128.png",
+    "id": 4
+  }
+]
