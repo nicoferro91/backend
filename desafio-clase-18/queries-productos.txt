@@ -1,0 +1,197 @@
+> show dbs
+admin      0.000GB
+config     0.000GB
+ecommerce  0.000GB
+local      0.000GB
+mibase     0.000GB
+> use ecommerce
+switched to db ecommerce
+> show collections
+mensajes
+productos
+> db.productos.insertMany([{title: "Pullover", price: 110, thumbnail: "link1"},{title: "Remera", price: 240, thumnail db.productos.insertMany([{title: "Pullover", price: 110, thumbnail: "link1"},{title: "Remera", price: 240, thumnai  db.productos.insertMany([{title: "Pullover", price: 110, thumbnail: "link1"},{titledb.productos.insertMany([{title: "Pullover", price: 110, thumbnail: "link1"},{title: "Remera", price: 240db.productos.insertMany([{title: "Pullover", price: 110, thumbnail: "link1"},{title: "Remera", price: 240db.productos.insertMany([{title: "Pullover", price: 110, thumbnail: "link1"},{title: "Remera", price: 240db.productos.insertMany([{title: "Pullover", price: 110, thumbnail: "link1"},{title: "Remera", price: 240db.productos.insertMany([{title: "Pullover", price: 110, thumbnail: "link1"},{tit
+> asdasd                 : "Remera", price: 240,
+uncaught exception: ReferenceError: asdasd is not defined :
+@(shell):1:1
+> db.productos.insertOne({title: "Pullover", price: 110, thumbnail: "link1"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("631fb2963817dec20e25296d")
+}
+> db.productos.insertOne({title: "Remera", price: 420, thumbnail: "link2"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("631fb2c23817dec20e25296e")
+}
+> db.productos.insertOne({title: "Vestido", price: 800, thumbnail: "link3"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("631fb2f53817dec20e25296f")
+}
+> db.productos.insertOne({title: "Poncho", price: 1300, thumbnail: "link4"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("631fb30c3817dec20e252970")
+}
+> db.productos.insertOne({title: "Falda", price: 2500, thumbnail: "link5"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("631fb3303817dec20e252971")
+}
+> db.productos.insertOne({title: "Campera", price: 3700, thumbnail: "link6"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("631fb3443817dec20e252972")
+}
+> db.productos.insertOne({title: "Saco", price: 3900, thumbnail: "link7"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("631fb3733817dec20e252973")
+}
+> db.productos.insertOne({title: "Zapatos", price: 4200, thumbnail: "link8"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("631fb3863817dec20e252974")
+}
+> db.productos.insertOne({title: "Zapatillas", price: 4500, thumbnail: "link9"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("631fb39d3817dec20e252975")
+}
+> db.productos.insertOne({title: "Pantalon", price: 4900, thumbnail: "link10"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("631fb3bf3817dec20e252976")
+}
+> db.productos.find()
+{ "_id" : ObjectId("631fb2963817dec20e25296d"), "title" : "Pullover", "price" : 110, "thumbnail" : "link1" }
+{ "_id" : ObjectId("631fb2c23817dec20e25296e"), "title" : "Remera", "price" : 420, "thumbnail" : "link2" }
+{ "_id" : ObjectId("631fb2f53817dec20e25296f"), "title" : "Vestido", "price" : 800, "thumbnail" : "link3" }
+{ "_id" : ObjectId("631fb30c3817dec20e252970"), "title" : "Poncho", "price" : 1300, "thumbnail" : "link4" }
+{ "_id" : ObjectId("631fb3303817dec20e252971"), "title" : "Falda", "price" : 2500, "thumbnail" : "link5" }
+{ "_id" : ObjectId("631fb3443817dec20e252972"), "title" : "Campera", "price" : 3700, "thumbnail" : "link6" }
+{ "_id" : ObjectId("631fb3733817dec20e252973"), "title" : "Saco", "price" : 3900, "thumbnail" : "link7" }
+{ "_id" : ObjectId("631fb3863817dec20e252974"), "title" : "Zapatos", "price" : 4200, "thumbnail" : "link8" }
+{ "_id" : ObjectId("631fb39d3817dec20e252975"), "title" : "Zapatillas", "price" : 4500, "thumbnail" : "link9" }
+{ "_id" : ObjectId("631fb3bf3817dec20e252976"), "title" : "Pantalon", "price" : 4900, "thumbnail" : "link10" }
+> db.productos.find().pretty()
+{
+        "_id" : ObjectId("631fb2963817dec20e25296d"),
+        "title" : "Pullover",
+        "price" : 110,
+        "thumbnail" : "link1"
+}
+{
+        "_id" : ObjectId("631fb2c23817dec20e25296e"),
+        "title" : "Remera",
+        "price" : 420,
+        "thumbnail" : "link2"
+}
+{
+        "_id" : ObjectId("631fb2f53817dec20e25296f"),
+        "title" : "Vestido",
+        "price" : 800,
+        "thumbnail" : "link3"
+}
+{
+        "_id" : ObjectId("631fb30c3817dec20e252970"),
+        "title" : "Poncho",
+        "price" : 1300,
+        "thumbnail" : "link4"
+}
+{
+        "_id" : ObjectId("631fb3303817dec20e252971"),
+        "title" : "Falda",
+        "price" : 2500,
+        "thumbnail" : "link5"
+}
+{
+        "_id" : ObjectId("631fb3443817dec20e252972"),
+        "title" : "Campera",
+        "price" : 3700,
+        "thumbnail" : "link6"
+}
+{
+        "_id" : ObjectId("631fb3733817dec20e252973"),
+        "title" : "Saco",
+        "price" : 3900,
+        "thumbnail" : "link7"
+}
+{
+        "_id" : ObjectId("631fb3863817dec20e252974"),
+        "title" : "Zapatos",
+        "price" : 4200,
+        "thumbnail" : "link8"
+}
+{
+        "_id" : ObjectId("631fb39d3817dec20e252975"),
+        "title" : "Zapatillas",
+        "price" : 4500,
+        "thumbnail" : "link9"
+}
+{
+        "_id" : ObjectId("631fb3bf3817dec20e252976"),
+        "title" : "Pantalon",
+        "price" : 4900,
+        "thumbnail" : "link10"
+}
+> db.productos.estimatedDocumentCount()
+10
+> db.productos.insertOne({title: "Cinturon", price: 4950, thumbnail: "link11"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("631fb4eb3817dec20e252977")
+}
+> db.productos.find({title: "Poncho"})
+{ "_id" : ObjectId("631fb30c3817dec20e252970"), "title" : "Poncho", "price" : 1300, "thumbnail" : "link4" }
+> db.productos.find({price: {$lt: 1000}})
+{ "_id" : ObjectId("631fb2963817dec20e25296d"), "title" : "Pullover", "price" : 110, "thumbnail" : "link1" }
+{ "_id" : ObjectId("631fb2c23817dec20e25296e"), "title" : "Remera", "price" : 420, "thumbnail" : "link2" }
+{ "_id" : ObjectId("631fb2f53817dec20e25296f"), "title" : "Vestido", "price" : 800, "thumbnail" : "link3" }
+> db.productos.find({price: {$gt: 1000},{$lt: 3000}})
+uncaught exception: SyntaxError: expected property name, got '{' :
+@(shell):1:38
+> db.productos.find({$and:[{price:{$gt: 1000}, {price:{$lt: 3000}}}]})
+uncaught exception: SyntaxError: expected property name, got '{' :
+@(shell):1:45
+> db.productos.find({price: {$gt: 1000, $lt: 3000}})
+{ "_id" : ObjectId("631fb30c3817dec20e252970"), "title" : "Poncho", "price" : 1300, "thumbnail" : "link4" }
+{ "_id" : ObjectId("631fb3303817dec20e252971"), "title" : "Falda", "price" : 2500, "thumbnail" : "link5" }
+> db.productos.find({price: {$gt: 3000}})
+{ "_id" : ObjectId("631fb3443817dec20e252972"), "title" : "Campera", "price" : 3700, "thumbnail" : "link6" }
+{ "_id" : ObjectId("631fb3733817dec20e252973"), "title" : "Saco", "price" : 3900, "thumbnail" : "link7" }
+{ "_id" : ObjectId("631fb3863817dec20e252974"), "title" : "Zapatos", "price" : 4200, "thumbnail" : "link8" }
+{ "_id" : ObjectId("631fb39d3817dec20e252975"), "title" : "Zapatillas", "price" : 4500, "thumbnail" : "link9" }
+{ "_id" : ObjectId("631fb3bf3817dec20e252976"), "title" : "Pantalon", "price" : 4900, "thumbnail" : "link10" }
+{ "_id" : ObjectId("631fb4eb3817dec20e252977"), "title" : "Cinturon", "price" : 4950, "thumbnail" : "link11" }
+> db.productos.find({},"title":1).sort({price:1}).skip(2)
+uncaught exception: SyntaxError: missing ) after argument list :
+@(shell):1:28
+> db.productos.find().sort({price:1}).skip(2).limit(1)
+{ "_id" : ObjectId("631fb2f53817dec20e25296f"), "title" : "Vestido", "price" : 800, "thumbnail" : "link3" }
+> db.productos.find({},{"title":1})
+{ "_id" : ObjectId("631fb2963817dec20e25296d"), "title" : "Pullover" }
+{ "_id" : ObjectId("631fb2c23817dec20e25296e"), "title" : "Remera" }
+{ "_id" : ObjectId("631fb2f53817dec20e25296f"), "title" : "Vestido" }
+{ "_id" : ObjectId("631fb30c3817dec20e252970"), "title" : "Poncho" }
+{ "_id" : ObjectId("631fb3303817dec20e252971"), "title" : "Falda" }
+{ "_id" : ObjectId("631fb3443817dec20e252972"), "title" : "Campera" }
+{ "_id" : ObjectId("631fb3733817dec20e252973"), "title" : "Saco" }
+{ "_id" : ObjectId("631fb3863817dec20e252974"), "title" : "Zapatos" }
+{ "_id" : ObjectId("631fb39d3817dec20e252975"), "title" : "Zapatillas" }
+{ "_id" : ObjectId("631fb3bf3817dec20e252976"), "title" : "Pantalon" }
+{ "_id" : ObjectId("631fb4eb3817dec20e252977"), "title" : "Cinturon" }
+> db.productos.find({},{"title":1).sort({price:1}).skip(2).limit(1)
+...
+... db.productos.find({},{"title":1}).sort({price:1}).skip(2).limit(1)
+... )
+uncaught exception: SyntaxError: missing } after property list :
+@(shell):1:31
+> db.productos.find({},{"title":1}).sort({price:1}).skip(2).limit(1)
+{ "_id" : ObjectId("631fb2f53817dec20e25296f"), "title" : "Vestido" }
+> db.productos.updateMany({},{$set:{stock:100} })
+{ "acknowledged" : true, "matchedCount" : 11, "modifiedCount" : 11 }
+> db.productos.updateMany({price:{$gt: 4000} } ,{$set:{stock:0} })
+{ "acknowledged" : true, "matchedCount" : 4, "modifiedCount" : 4 }
+> db.productos.deleteMany({price:{$lt: 1000}} )
+{ "acknowledged" : true, "deletedCount" : 3 }

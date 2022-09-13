@@ -1,0 +1,65 @@
+[{
+  "_id": {
+    "$oid": "631fb30c3817dec20e252970"
+  },
+  "title": "Poncho",
+  "price": 1300,
+  "thumbnail": "link4",
+  "stock": 100
+},{
+  "_id": {
+    "$oid": "631fb3303817dec20e252971"
+  },
+  "title": "Falda",
+  "price": 2500,
+  "thumbnail": "link5",
+  "stock": 100
+},{
+  "_id": {
+    "$oid": "631fb3443817dec20e252972"
+  },
+  "title": "Campera",
+  "price": 3700,
+  "thumbnail": "link6",
+  "stock": 100
+},{
+  "_id": {
+    "$oid": "631fb3733817dec20e252973"
+  },
+  "title": "Saco",
+  "price": 3900,
+  "thumbnail": "link7",
+  "stock": 100
+},{
+  "_id": {
+    "$oid": "631fb3863817dec20e252974"
+  },
+  "title": "Zapatos",
+  "price": 4200,
+  "thumbnail": "link8",
+  "stock": 0
+},{
+  "_id": {
+    "$oid": "631fb39d3817dec20e252975"
+  },
+  "title": "Zapatillas",
+  "price": 4500,
+  "thumbnail": "link9",
+  "stock": 0
+},{
+  "_id": {
+    "$oid": "631fb3bf3817dec20e252976"
+  },
+  "title": "Pantalon",
+  "price": 4900,
+  "thumbnail": "link10",
+  "stock": 0
+},{
+  "_id": {
+    "$oid": "631fb4eb3817dec20e252977"
+  },
+  "title": "Cinturon",
+  "price": 4950,
+  "thumbnail": "link11",
+  "stock": 0
+}]
