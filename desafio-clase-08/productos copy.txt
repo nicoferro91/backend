@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Holanda1",
+    "price": 1000,
+    "thumbnail": "url-foto1",
+    "id": 1
+  },
+  {
+    "title": "Producto actualizado2",
+    "price": 12342,
+    "thumbnail": "foto actualizada2",
+    "id": 2
+  },
+  {
+    "title": "Holanda3",
+    "price": 3000,
+    "thumbnail": "url-foto3",
+    "id": 3
+  },
+  {
+    "title": "Producto nuevo",
+    "price": 3456,
+    "thumbnail": "foto nueva",
+    "id": 4
+  }
+]

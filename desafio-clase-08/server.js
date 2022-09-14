@@ -24,10 +24,13 @@ app.listen(PORT, () =>{
 
 // Devolver un producto por id
 routerProductos.get("/:id", async (req,res)=>{
+    console.log(req.params)
     let {id} = req.params
+    console.log(id)
     id = id.slice(1)
     id = parseInt(id)
     const contenedor = new Contenedor("./productos.txt")
+    console.log(id)
     let productos = await contenedor.getById(id)
     res.send(productos)
 })
