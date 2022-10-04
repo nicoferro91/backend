@@ -1,117 +1,146 @@
-const Contenedor= require("./contenedor");
-const express = require("express")
-const {Server: HttpServer} = require("http")
-const {Server: IOServer} = require("socket.io")
-const handlebars = require("express-handlebars")
+const { Contenedor } = require("./utils/contenedor");
+const { generadorProductos } = require("./utils/generadorProducto");
+const exec = require("child_process").exec;
 
-const {optionsMariaDB}  = require("./mariaDB/conexionMariaDB")
-const knexMariaDB = require("knex")(optionsMariaDB)
+const express = require("express");
+const handlebars = require("express-handlebars");
 
-const {optionsSQLite}  = require("./sqlite3/conexionSQLite")
-const knexSQLite = require("knex")(optionsSQLite)
+const productosRandoms = generadorProductos();
+const leerComentarios = new Contenedor("./ecommerce/chat.json");
+const guardarComentarios = new Contenedor(
+	"./ecommerce/mensajesSinNormalizar.json"
+);
 
-const app = express()
-const httpServer = new HttpServer(app)
-const ioServer = new IOServer(httpServer)
+const { Server: HttpServer } = require("http");
+const { Server: IoServer } = require("socket.io");
 
-const { Router } = express
-const routerProductos = Router()
+const app = express();
+const httpServer = new HttpServer(app);
+const io = new IoServer(httpServer);
 
-app.use(express.static("public"))
-const PORT = 8080
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+const port = process.env.PORT || 8080;
 
-// Seteo de handlebars
-app.engine(
-    "hbs",
-    handlebars.engine({
-        extname: ".hbs",
-        defaultLayout: "index.hbs",
-        layoutsDir: __dirname + "/views/layouts",
-        partialsDir: __dirname + "/views/partials"
-    })
-)
-app.set("view engine", "hbs")
-app.set("views", "./views")
+// ** Mensajes----------------
+// ----------------------------INICIO
+io.on("connection", async socket => {
+	let mensajesChat = await leerComentarios.getAll();
+	console.log("Se contectó un usuario");
 
-// Carga mensajes
-app.get("/chat/mensajes", async (req,res)=>{
-    const contenedor = new Contenedor(knexSQLite,"misMensajes")
-    const respuesta = await contenedor.getMessages()
-    res.json({respuesta})
-})
+	const text = {
+		text: "ok",
+		mensajesChat
+	};
 
-// Mostrar tabla de productos
-app.get("/", async (req, res)=>{
-    const contenedor = new Contenedor(knexMariaDB, "misproductos")
-    let productos = await contenedor.getAll()
-    res.render("partials/productos", {productList:true, agregado:false, products:productos})
-})
+	socket.emit("mensaje-servidor", text);
 
-// Devolver un producto por id
-app.get("/:id", async (req,res)=>{
-    let {id} = req.params
-    id = parseInt(id.slice(1))
-    const contenedor = new Contenedor(knexMariaDB, "misproductos")
-    const respuesta = await contenedor.getById(id)
-    res.json({respuesta})
-})
+	socket.on("mensaje-nuevo", async (msg, cb) => {
+		mensajesChat.push(msg);
+		const text = {
+			text: "mensaje nuevo",
+			mensajesChat
+		};
 
-// Actualizar un producto por id
-app.put("/:id", async(req, res)=>{
-    let {id} = req.params
-    id = id.slice(1)
-    id = parseInt(id)
-    const objProducto = req.body
-    const contenedor = new Contenedor(knexMariaDB, "misproductos")
-    const respuesta = await contenedor.updateById(objProducto, id, admin)
-    res.json({respuesta})
-} )
-
-// Agregar un producto
-app.post("/", async (req, res)=>{
-    const contenedor = new Contenedor(knexMariaDB, "misproductos")
-    const objProducto = req.body
-    const respuesta = await contenedor.save(objProducto, admin)
-    res.json({respuesta})
-})
-
-// Borrar un producto por id
-app.delete("/:id", async (req,res)=>{
-    let {id} = req.params
-    id = id.slice(1)
-    id = parseInt(id)
-    const contenedor = new Contenedor(knexMariaDB, "misproductos")
-    const respuesta = await contenedor.deleteById(id, admin)
-    res.json({respuesta})
-})
-
-// 404 en productos
-app.get("*", async (req,res)=>{
-    res.json({
-		error: -2,
-		description: "Ruta no implementada"
+		io.sockets.emit("mensaje-servidor", text);
+		await guardarComentarios.save({
+			author: msg.author,
+			text: msg.text
+		});
+		exec("node ./ecommerce/mensajes.js", async (err, stdout, stderr) => {
+			if (err !== null) {
+				console.error(`error de exec: ${err}`);
+			}
+			return (mensajesChat = await leerComentarios.getAll());
+		});
 	});
-})
+});
+// ---------------------------- FIN
 
-// Comunicacion servidor-cliente
-ioServer.on("connection", socket=>{
-    console.log("usuario conectado", socket.id)
-    socket.on("disconnect",()=>{
-        console.log("usuario desconectado", socket.id)
-    })
-    // Productos agregados
-    socket.on("newProduct-client", socket=>{
-        ioServer.sockets.emit("newProduct-server", socket)
-        const contenedor = new Contenedor(knexMariaDB, "productos")
-        contenedor.save(socket)
-    })
-    // Chat
-    socket.on("mensaje-cliente", socket=>{
-        ioServer.sockets.emit("mensaje-server", socket)
-    })
-})
+// -------------------------------- INICIO Mensajes cambios por json.
+app.get("/api/mensajes/:id", async (req, res) => {
+	const { id } = req.params;
+	const productoById = await productos.getById(id);
+	productoById
+		? res.json(productoById)
+		: res.json({ error: "Producto no encontrado" });
+});
 
-httpServer.listen(PORT, err => {
-    if(err) throw new Error("error en server")
-    console.log(`servidor en puerto ${PORT}`)
-})
+app.put("/api/mensajes/:id", async (req, res) => {
+	const { id } = req.params;
+	const respuesta = await guardarComentarios.updateById(id, req.body);
+	res.json(respuesta);
+	exec("node ./ecommerce/mensajes.js", async (err, stdout, stderr) => {
+		if (err !== null) {
+			console.error(`error de exec: ${err}`);
+		}
+		return (texts = await leerComentarios.getAll());
+	});
+});
+
+app.delete("/api/mensajes/:id", async (req, res) => {
+	const { id } = req.params;
+	res.json(await guardarComentarios.deleteById(id));
+	exec("node ./ecommerce/mensajes.js", async (err, stdout, stderr) => {
+		if (err !== null) {
+			console.error(`error de exec: ${err}`);
+		}
+		return (texts = await leerComentarios.getAll());
+	});
+});
+
+app.delete("/api/texts", async (req, res) => {
+	res.json(await guardarComentarios.deleteAll());
+	exec("node ./ecommerce/mensajes.js", async (err, stdout, stderr) => {
+		if (err !== null) {
+			console.error(`error de exec: ${err}`);
+		}
+		return (texts = await leerComentarios.getAll());
+	});
+});
+// -------------------------------- FIN Mensajes cambios por json.
+
+// ** Render con handlebars
+// ------------------------------ INICIO
+app.set("view engine", "hbs");
+app.set("views", "./views/layouts");
+
+app.use(express.static("public"));
+
+app.engine(
+	"hbs",
+	handlebars.engine({
+		extname: ".hbs",
+		defaultLayout: "",
+		layoutsDir: "",
+		partialsDir: __dirname + "/views/partials"
+	})
+);
+// ---------------------------- FIN
+
+// ** Productos
+// ------------------------------ INICIO
+app.get("/api/productos-test", async (req, res) => {
+	const producto = await productosRandoms;
+	res.render("productos", {
+		list: producto,
+		listExist: true,
+		producto: true
+	});
+});
+
+app.get("/", async (req, res) => {
+	const producto = await productosRandoms;
+	res.render("index", {
+		titulo: "Productos de Crud",
+		list: producto,
+		listExist: true,
+		producto: true
+	});
+});
+// ---------------------------- FIN
+
+httpServer.listen(port, err => {
+	if (err) throw new Error(`Error al iniciar el servidor: ${err}`);
+	console.log(`Server is running on port ${port}`);
+});

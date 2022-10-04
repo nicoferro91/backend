@@ -1,20 +1,21 @@
 {
-  "name": "handlebars",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.18.1",
-    "express-handlebars": "^6.0.6",
-    "knex": "^2.3.0",
-    "mysql": "^2.18.1",
-    "socket.io": "^4.5.1",
-    "sqlite3": "^5.0.11"
-  }
+	"name": "desafio-c24",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@faker-js/faker": "^7.5.0"
+	},
+	"dependencies": {
+		"express": "^4.18.1",
+		"express-handlebars": "^6.0.6",
+		"normalizr": "^3.6.2",
+		"socket.io": "^4.5.1"
+	}
 }
