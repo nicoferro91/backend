@@ -1,4 +1,0 @@
-# PROBÉ DELETE CON UN MENSAJE QUE BORRÉ POR OBSCENO.
-
-# DELETE http://localhost:8080/api/mensajes/ HTTP/1.1
-# content-type: application/json
