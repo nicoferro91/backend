@@ -1,0 +1,90 @@
+[
+  {
+    "author": {
+      "id": "nico@gmail.com",
+      "nombre": "Nico",
+      "apellido": "Ferro",
+      "edad": "31",
+      "alias": "nico",
+      "avatar": "https://cdn1.iconfinder.com/data/icons/user-pictures/100/boy-128.png"
+    },
+    "text": "hola"
+  },
+  {
+    "author": {
+      "id": "lagro@gmail.com",
+      "nombre": "Matias",
+      "apellido": "Lagroteria",
+      "edad": "32",
+      "alias": "lagroo",
+      "avatar": "https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-128.png"
+    },
+    "text": "hola nico, todo bien?"
+  },
+  {
+    "author": {
+      "id": "nico@gmail.com",
+      "nombre": "Nico",
+      "apellido": "Ferro",
+      "edad": "31",
+      "alias": "nico",
+      "avatar": "https://cdn1.iconfinder.com/data/icons/user-pictures/100/boy-128.png"
+    },
+    "text": "si, todo tranqui?"
+  },
+  {
+    "author": {
+      "id": "pato@gmail.com",
+      "nombre": "Patricio",
+      "apellido": "Guerra",
+      "edad": "32",
+      "alias": "kine",
+      "avatar": "https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-128.png"
+    },
+    "text": "buenas, como andan?"
+  },
+  {
+    "author": {
+      "id": "lagar@gmail.com",
+      "nombre": "Patricia",
+      "apellido": "Soraire",
+      "edad": "27",
+      "alias": "lagar",
+      "avatar": "https://cdn1.iconfinder.com/data/icons/user-pictures/100/supportfemale-128.png"
+    },
+    "text": "me compre un body!"
+  },
+  {
+    "author": {
+      "id": "nicoferro91@gmail.com",
+      "nombre": "nicoooo",
+      "apellido": "ferrooooo",
+      "edad": "33",
+      "alias": "nico ",
+      "avatar": "srasra"
+    },
+    "text": "hola vengoo a flotar"
+  },
+  {
+    "author": {
+      "id": "alexis@tutor.com",
+      "nombre": "alexis",
+      "apellido": "coronel",
+      "edad": "25",
+      "alias": "ale",
+      "avatar": "foto"
+    },
+    "text": "nico, estas aprobado"
+  },
+  {
+    "author": {
+      "id": "alexis@tutor.com",
+      "nombre": "alexis",
+      "apellido": "coronel",
+      "edad": "25",
+      "alias": "ale",
+      "avatar": "foto"
+    },
+    "text": "nico, estas aprobado"
+  }
+]
