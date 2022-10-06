@@ -64,5 +64,27 @@
       "avatar": "srasra"
     },
     "text": "hola vengoo a flotar"
+  },
+  {
+    "author": {
+      "id": "alexis@tutor.com",
+      "nombre": "alexis",
+      "apellido": "coronel",
+      "edad": "25",
+      "alias": "ale",
+      "avatar": "foto"
+    },
+    "text": "nico, estas aprobado"
+  },
+  {
+    "author": {
+      "id": "alexis@tutor.com",
+      "nombre": "alexis",
+      "apellido": "coronel",
+      "edad": "25",
+      "alias": "ale",
+      "avatar": "foto"
+    },
+    "text": "nico, estas aprobado"
   }
 ]
