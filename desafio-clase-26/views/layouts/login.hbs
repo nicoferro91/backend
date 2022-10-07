@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <title>Login</title>
+</head>
+
+<body>
+    <br>
+    <div class="container" style="background-color:#e9ecef">
+        <div class="container" style="background-color:#e9ecef">
+            <br>
+            <h2 style="color:blue">Login de usuario</h2>
+            <form class="mt-5">
+                <div class="form-group">
+                    <label for="Email"></label>
+                    <input required="required" type="text" class="form-control col-6" id="username"
+                        placeholder="Ingresá tu email" />
+                </div>
+                <div class="form-group">
+                    <label for="Password"></label>
+                    <input required="required" type="password" class="form-control col-6" id="password"
+                        placeholder="Ingresá tu contraseña" />
+                </div>
+                <div class="col-6" style="padding-top: 23px;">
+                    <input type="submit" class="btn btn-primary col-3" id="login" value="Ingresar" />
+                </div>
+                <br>
+                <div class="col-6" style="padding-top: 23px;">
+                    <input type="submit" class="btn btn-primary col-3" id="goRegister" value="Ingresar" />
+                </div>
+            </form>
+            <br>
+        </div>
+    </div>
+
+    {{> footer }}
+
+    <script>
+        const btn = document.getElementById("login");
+        btn.addEventListener("click", e => {
+            e.preventDefault();
+            const url = "http://localhost:8080/login";
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            { { !--console.log({ username, password }); --} }
+            return fetch(url, {
+                port: 8080,
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password }),
+                // Redirect a inicio
+            }).then(res => {
+                if (res.status === 200) {
+                    window.location.href = "http://localhost:8080/";
+                }
+            }).catch(err => {
+                console.log(err);
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+        integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"
+        integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
