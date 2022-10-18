@@ -148,13 +148,14 @@ app.get("/logout", async (req, res) => {
 	res.render("index")
 })
 
-// Ruta inexistente
-app.use("/api/*", (req, res) => {
-	res.json({
-		error: -2,
-		descripcion: `ruta '${req.path}' método '${req.method}' no implementada`
-	})
-})
+// Ruta inexistente ------ tengo que arreglar esto
+
+// app.use("/api/*", (req, res) => {
+// 	res.json({
+// 		error: -2,
+// 		descripcion: `ruta '${req.path}' método '${req.method}' no implementada`
+// 	})
+// })
 
 // Info
 app.get("/info", (req, res) => {
