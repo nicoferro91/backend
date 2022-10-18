@@ -1,43 +1,47 @@
-const express = require("express");
-require("dotenv").config();
-const handlebars = require("express-handlebars");
-const MongoStore = require("connect-mongo");
-const session = require("express-session");
-const cp = require("cookie-parser");
+const express = require("express")
+require("dotenv").config()
+const handlebars = require("express-handlebars")
+const MongoStore = require("connect-mongo")
+const session = require("express-session")
+const cp = require("cookie-parser")
+
+const { argv, platform, version, memoryUsage, cwd, pid, execPath } = process
+const { fork } = require("child_process")
+const calculoPesado = require("./src/utils/calculo")
 
 const app = express();
 
 // --- WEBSOCKET
-const { Server: HttpServer } = require("http");
-const { Server: IoServer } = require("socket.io");
-const httpServer = new HttpServer(app);
-const io = new IoServer(httpServer);
+const { Server: HttpServer } = require("http")
+const { Server: IoServer } = require("socket.io")
+const httpServer = new HttpServer(app)
+const io = new IoServer(httpServer)
 
 // --- middleware ----------------
-app.use(cp());
-const { generadorProductos } = require("./utils/generadorProducto");
-const checkAuthentication = require("./utils/checkAuthentication");
-const passport = require("./utils/passportMiddleware");
+app.use(cp())
+const { generadorProductos } = require("./utils/generadorProducto")
+const checkAuthentication = require("./utils/checkAuthentication")
+const passport = require("./utils/passportMiddleware")
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static("public"))
 
 const PORT = process.env.PORT;
 
 // meter productosRandom en la base datos, en la colección productos
-const productosRandoms = generadorProductos();
-const { Carrito, Producto, Login, Chat } = require("./daos/index.js");
+const productosRandoms = generadorProductos()
+const { Carrito, Producto, Login, Chat } = require("./daos/index.js")
 
 // --- Creación de objetos con DAOS ----------------
-const Carritos = new Carrito();
-let Productos = new Producto();
+const Carritos = new Carrito()
+let Productos = new Producto()
 
-const Logins = new Login();
-const Chats = new Chat();
+const Logins = new Login()
+const Chats = new Chat()
 
-app.set("view engine", "hbs");
-app.set("views", "./views/layouts");
+app.set("view engine", "hbs")
+app.set("views", "./views/layouts")
 
 app.engine(
 	"hbs",
@@ -74,13 +78,13 @@ app.use(
 );
 
 // Passport
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.initialize())
+app.use(passport.session())
 
 // página de inicio, no dejar si no está logeado
 app.get("/", checkAuthentication, async (req, res) => {
-	const productos = await Productos.getAll();
-	res.render("index", { productos });
+	const productos = await Productos.getAll()
+	res.render("index", { productos })
 });
 
 // Login
@@ -144,12 +148,37 @@ app.get("/logout", async (req, res) => {
 	res.render("index")
 })
 
-
 // Ruta inexistente
 app.use("/api/*", (req, res) => {
 	res.json({
 		error: -2,
 		descripcion: `ruta '${req.path}' método '${req.method}' no implementada`
+	})
+})
+
+// Info
+app.get("/info", (req, res) => {
+	const arguments = argv.slice(2).join(" || ");
+
+	res.render("info", {
+		execArgv: arguments.length ? arguments : "Ninguno",
+		platform,
+		version,
+		memoryUsage: memoryUsage().rss,
+		cwd: cwd(),
+		pid,
+		execPath
+	});
+});
+
+// Numeros aleatorios
+app.get("/api/randoms", (req, res) => {
+	let { cant } = req.query
+	console.log(cant)
+	const random = fork("./src/utils/calculo", [cant])
+	random.send("start")
+	random.on("message", obj => {
+		res.json(obj)
 	})
 })
 
