@@ -99,7 +99,7 @@ app.post(
 	"/login",
 	passport.authenticate("login", {
 		successRedirect: "/",
-		failureRedirect: "faillogin"
+		failureRedirect: "loginFail"
 	}),
 
 	(req, res) => {
@@ -117,7 +117,7 @@ app.get("/register", (req, res) => {
 app.post(
 	"/register",
 	passport.authenticate("register", {
-		failureRedirect: "failregister",
+		failureRedirect: "registerFail",
 		successRedirect: "/login"
 	}),
 	(req, res) => {
@@ -127,15 +127,15 @@ app.post(
 )
 
 // Error de registro
-app.get("/failregister", (req, res) => {
+app.get("/registerFail", (req, res) => {
 	console.error("Error de registro")
-	res.render("failregister")
+	res.render("registerFail")
 });
 
 // Error de login
-app.get("/faillogin", (req, res) => {
+app.get("/loginFail", (req, res) => {
 	console.error("Error de login")
-	res.render("faillogin")
+	res.render("loginFail")
 });
 
 // Logout
