@@ -7,6 +7,10 @@ const cp = require("cookie-parser")
 
 const { argv, platform, version, memoryUsage, cwd, pid, execPath } = process
 const { fork } = require("child_process")
+
+const cluster = require("cluster");
+const numCPUs = require("os").cpus().length;
+
 const calculoPesado = require("./utils/calculo")
 
 const app = express();
@@ -168,7 +172,8 @@ app.get("/info", (req, res) => {
 		memoryUsage: memoryUsage().rss,
 		cwd: cwd(),
 		pid,
-		execPath
+		execPath,
+		numCPUs
 	});
 });
 
