@@ -5,18 +5,20 @@ modo cluster:
 pm2 start server.js --name="Server Cluster" -i max --watch -- 8080
 
 Configuración NGINX:
-user  nobody;
+#user  nobody;
 worker_processes  1;
 
-error_log  logs/error.log;
-error_log  logs/error.log  notice;
-error_log  logs/error.log  info;
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
 
-pid        logs/nginx.pid;
+#pid        logs/nginx.pid;
+
 
 events {
   worker_connections  1024;
 }
+
 
 http {
   include       mime.types;
