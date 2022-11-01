@@ -37,6 +37,12 @@ const PORT = process.env.PORT;
 const productosRandoms = generadorProductos()
 const { Carrito, Producto, Login, Chat } = require("./daos/index.js")
 
+// minimist
+const minimist = require("minimist")
+
+// LOG4JS
+const logger = require("./logs/loggers")
+
 // --- Creación de objetos con DAOS ----------------
 const Carritos = new Carrito()
 let Productos = new Producto()
@@ -79,7 +85,13 @@ app.use(
 		resave: true,
 		saveUninitialized: false
 	})
-);
+)
+
+// logger
+app.use((req,res,next)=>{
+	logger.warn("NONE EXISTING URL")
+	res.sendStatus('404')
+  })
 
 // Passport
 app.use(passport.initialize())
@@ -89,7 +101,7 @@ app.use(passport.session())
 app.get("/", checkAuthentication, async (req, res) => {
 	const productos = await Productos.getAll()
 	res.render("index", { productos })
-});
+})
 
 // Login
 app.get("/login", (req, res) => {
@@ -163,7 +175,7 @@ app.get("/logout", async (req, res) => {
 
 // Info
 app.get("/info", (req, res) => {
-	const arguments = argv.slice(2).join(" || ");
+	const arguments = argv.slice(2).join(" || ")
 
 	res.render("info", {
 		execArgv: arguments.length ? arguments : "Ninguno",
@@ -174,8 +186,34 @@ app.get("/info", (req, res) => {
 		pid,
 		execPath,
 		numCPUs
+	})
+})
+
+if (mode === "fork") {
+	app.use("/api", routerRandom);
+	httpServer.listen(port, () => {
+	  console.log(
+		`Corriendo en modo Fork en el puerto http://localhost:${port} en modo  ${process.env.NODE_ENV}`
+	  );
 	});
-});
+  }
+  if (mode === "cluster") {
+	if (isMaster) {
+	  for (let i = 0; i < cpus; i++) {
+		cluster.fork();
+	  }
+	  cluster.on("exit", (worker) => {
+		console.log(`Process with id: ${worker.process.pid} finished`);
+	  });
+	} else {
+	  app.use("/test", routerCluster);
+	  httpServer.listen(port, () => {
+		console.log(
+		  `Corriendo en modo Cluster en el puerto http://localhost:${port} en modo ${process.env.NODE_ENV}`
+		);
+	  });
+	}
+  }
 
 // Numeros aleatorios
 app.get("/api/randoms", (req, res) => {
