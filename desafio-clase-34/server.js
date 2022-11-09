@@ -7,10 +7,6 @@ const cp = require("cookie-parser")
 
 const { argv, platform, version, memoryUsage, cwd, pid, execPath } = process
 const { fork } = require("child_process")
-
-const cluster = require("cluster");
-const numCPUs = require("os").cpus().length;
-
 const calculoPesado = require("./utils/calculo")
 
 const app = express();
@@ -31,17 +27,11 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static("public"))
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT
 
 // meter productosRandom en la base datos, en la colección productos
 const productosRandoms = generadorProductos()
 const { Carrito, Producto, Login, Chat } = require("./daos/index.js")
-
-// minimist
-const minimist = require("minimist")
-
-// LOG4JS
-const logger = require("./logs/loggers")
 
 // --- Creación de objetos con DAOS ----------------
 const Carritos = new Carrito()
@@ -85,13 +75,7 @@ app.use(
 		resave: true,
 		saveUninitialized: false
 	})
-)
-
-// logger
-app.use((req,res,next)=>{
-	logger.warn("NONE EXISTING URL")
-	res.sendStatus('404')
-  })
+);
 
 // Passport
 app.use(passport.initialize())
@@ -101,7 +85,7 @@ app.use(passport.session())
 app.get("/", checkAuthentication, async (req, res) => {
 	const productos = await Productos.getAll()
 	res.render("index", { productos })
-})
+});
 
 // Login
 app.get("/login", (req, res) => {
@@ -184,36 +168,9 @@ app.get("/info", (req, res) => {
 		memoryUsage: memoryUsage().rss,
 		cwd: cwd(),
 		pid,
-		execPath,
-		numCPUs
-	})
-})
-
-if (mode === "fork") {
-	app.use("/api", routerRandom);
-	httpServer.listen(port, () => {
-	  console.log(
-		`Corriendo en modo Fork en el puerto http://localhost:${port} en modo  ${process.env.NODE_ENV}`
-	  );
+		execPath
 	});
-  }
-  if (mode === "cluster") {
-	if (isMaster) {
-	  for (let i = 0; i < cpus; i++) {
-		cluster.fork();
-	  }
-	  cluster.on("exit", (worker) => {
-		console.log(`Process with id: ${worker.process.pid} finished`);
-	  });
-	} else {
-	  app.use("/test", routerCluster);
-	  httpServer.listen(port, () => {
-		console.log(
-		  `Corriendo en modo Cluster en el puerto http://localhost:${port} en modo ${process.env.NODE_ENV}`
-		);
-	  });
-	}
-  }
+});
 
 // Numeros aleatorios
 app.get("/api/randoms", (req, res) => {
